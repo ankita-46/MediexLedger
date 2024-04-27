@@ -20,11 +20,11 @@ App = {
 
     initContract: function() {
 
-        $.getJSON('product.json',function(data){
+        $.getJSON('medicine.json',function(data){
 
-            var productArtifact=data;
-            App.contracts.product=TruffleContract(productArtifact);
-            App.contracts.product.setProvider(App.web3Provider);
+            var medicineArtifact=data;
+            App.contracts.medicine=TruffleContract(medicineArtifact);
+            App.contracts.medicine.setProvider(App.web3Provider);
         });
 
         return App.bindEvents();
@@ -32,15 +32,15 @@ App = {
 
     bindEvents: function() {
 
-        $(document).on('click','.btn-register',App.registerProduct);
+        $(document).on('click','.btn-register',App.registermedicine);
     },
 
-    registerProduct: function(event) {
+    registermedicine: function(event) {
         event.preventDefault();
 
-        var productInstance;
+        var medicineInstance;
 
-        var productSN = document.getElementById('productSN').value;
+        var medicineSN = document.getElementById('medicineSN').value;
         var consumerCode = document.getElementById('consumerCode').value;
  
         //window.ethereum.enable();
@@ -54,9 +54,9 @@ App = {
             var account=accounts[0];
             // console.log(account);
 
-            App.contracts.product.deployed().then(function(instance){
-                productInstance=instance;
-                return productInstance.sellerSellProduct(web3.fromAscii(productSN),web3.fromAscii(consumerCode), {from:account});
+            App.contracts.medicine.deployed().then(function(instance){
+                medicineInstance=instance;
+                return medicineInstance.sellerSellmedicine(web3.fromAscii(medicineSN),web3.fromAscii(consumerCode), {from:account});
              }).then(function(result){
                 // console.log(result);
                 window.location.reload();

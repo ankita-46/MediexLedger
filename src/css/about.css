@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+  }
+  
+  main {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+  }
+  
+  .about-description, .qr-code {
+    width: 45%;
+  }
+  
+  .qr-code img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+  
+  .about-description h2, .qr-code h2 {
+    color: #333;
+  }
+  
+  .about-description p, .qr-code p {
+    margin-bottom: 15px;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .contacts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .contact {
+    margin: 20px;
+    text-align: center;
+  }
+  
+  .contact img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+  
+  .contact .details {
+    font-size: 18px;
+  }
+  
+  .contact .details h3 {
+    margin: 0;
+  }
+  
+  .contact .details a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .contact .details a:hover {
+    text-decoration: underline;
+  }
+  

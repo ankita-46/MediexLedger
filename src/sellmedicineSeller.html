@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Fake Product Identification</title>
+  	<title>MediexLedger</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
@@ -16,10 +16,10 @@
 				<div class="col-md-8 order-md-last">
 					<div class="row">
 						<div class="col-md-6 text-center">
-							<a class="navbar-brand" href="index.html">Fake Product Identification <span>through Blockchain</span></a>
+							<a class="navbar-brand" href="index.html"><h1>MediexLedger</h1> <span>India's Safest Pharmacy </span></a>
 						</div>
 						<div class="col-md-6 d-md-flex justify-content-end mb-md-0 mb-3">
-							<form action="#" class="searchform order-lg-last">
+							
 			          
 			        </form>
 						</div>
@@ -53,7 +53,7 @@
 	</section>
     <section>
         <div class="container">
-            <h2>Sell Product to Seller</h2>
+            <h2>Sell Medicine to Consumer</h2>
 
 			<section>
 				<div class="container-fluid">
@@ -67,24 +67,20 @@
 			<div>
 				<table width="100%">
 					<tr width="100%">
-						<td width="15" align="center">
-							<label for="productSN">Product SN:</label>
-							</td>
-							<td width = "30%" >
-							<input disabled class="form-control" id="productSN" name="productSN" type="text" />
-						</td>
-
 						<td width="15%" align="center">
-						<label for="sellerCode">Seller Code</label>
+						<label for="medicineSN">Medicine SN:</label>
 						</td>
 						<td width = "30%">
-						<input  class="form-control" id="sellerCode" name="sellerCode" type="text" />
+						<input disabled class="form-control" id="medicineSN" name="medicineSN" type="text" />
 						</td>
-
+						<td width="15" align="center">
+						<label for="consumerCode">Consumer Code</label>
+						</td>
+						<td width = "30%" >
+						<input class="form-control" id="consumerCode" name="consumerCode" type="text" />
+						</td>
 					</tr>
-                    
 						
-					</tr>
 				</table>
 			  </div>
 			  <div class="clear">&nbsp;</div>
@@ -92,7 +88,7 @@
 
               
               
-              <button type="submit" class="btn btn-warning btn-register" id="register">Sell to Seller</button>
+              <button type="submit" class="btn btn-warning btn-register" id="register">Sell to Consumer</button>
           </div>
     </section>
 
@@ -102,20 +98,20 @@
   <script src="js/main.js"></script>
   <script src="js/web3.min.js"></script>
   <script src="js/truffle-contract.js"></script>
-  <script src="js/sellProductManufacturer.js"></script>
+  <script src="js/sellmedicineSeller.js"></script>
   <script src="https://unpkg.com/html5-qrcode"></script>
   <script>
-	var decodedText = "Enter Product SN";
-     function docReady(fn) {
+	var decodedText = "Enter medicine SN";
+    function docReady(fn) {
         // see if DOM is already available
         if (document.readyState === "complete"
-           || document.readyState === "interactive") {
-	        // call on next available tick
-           setTimeout(fn, 1);
+            || document.readyState === "interactive") {
+            // call on next available tick
+            setTimeout(fn, 1);
         } else {
             document.addEventListener("DOMContentLoaded", fn);
         }
-    } 
+    }
 
     docReady(function () {
         var resultContainer = document.getElementById('qr-reader-results');
@@ -129,7 +125,7 @@
                 audio.play();
                 // console.log(`Scan result ${decodedText}`, decodedResult);
                 document.getElementById('qr-reader-results').innerHTML=decodedText;
-				document.getElementById("productSN").value = decodedText;
+				document.getElementById("medicineSN").value = decodedText;
 				//App.init(decodedText);
                 
             }

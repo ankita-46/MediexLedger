@@ -19,11 +19,11 @@ App = {
 
     initContract: function() {
 
-        $.getJSON('product.json',function(data){
+        $.getJSON('medicine.json',function(data){
 
-            var productArtifact=data;
-            App.contracts.product=TruffleContract(productArtifact);
-            App.contracts.product.setProvider(App.web3Provider);
+            var medicineArtifact=data;
+            App.contracts.medicine=TruffleContract(medicineArtifact);
+            App.contracts.medicine.setProvider(App.web3Provider);
         });
 
         return App.bindEvents();
@@ -38,7 +38,7 @@ App = {
         event.preventDefault();
         var manufacturerCode = document.getElementById('manufacturerCode').value;
 
-        var productInstance;
+        var medicineInstance;
         //window.ethereum.enable();
         web3.eth.getAccounts(function(error,accounts){
 
@@ -49,10 +49,10 @@ App = {
             var account=accounts[0];
             // console.log(account);
 
-            App.contracts.product.deployed().then(function(instance){
+            App.contracts.medicine.deployed().then(function(instance){
 
-                productInstance=instance;
-                return productInstance.querySellersList(web3.fromAscii(manufacturerCode),{from:account});
+                medicineInstance=instance;
+                return medicineInstance.querySellersList(web3.fromAscii(manufacturerCode),{from:account});
 
             }).then(function(result){
                 

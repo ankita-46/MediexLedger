@@ -4,12 +4,144 @@
  * Copyright 2011-2019 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+ /* Styles for the news button */
+/* Styles for the news button */
+
+
+#news-button {
+  background-color: #007bff; /* Blue background color */
+  color: #fff; /* White text color */
+  border: none; /* Remove button border */
+  padding: 8px 16px; /* Padding around the text */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 14px; /* Font size */
+  cursor: pointer; /* Cursor style */
+  outline: none; /* Remove focus outline */
+  transition: transform 0.3s, background-color 0.3s; /* Smooth transition */
+}
+
+/* Hover effect */
+#news-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Style for the enlarged text */
+.enlarged {
+  font-size: 20px; /* Larger font size */
+  font-weight: bold; /* Bold text */
+}
+
+ .single-line-text {
+  white-space: nowrap;
+  font-weight: bold;
+}
+ .accordion-item {
+  border-bottom: 1px solid #ccc;
+}
+
+.accordion-title {
+  background-color: #f1f1f1;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.accordion-content {
+  padding: 10px;
+  display: none;
+}
+
+/* Show content when accordion title is clicked */
+.accordion-item.active .accordion-content {
+  display: block;
+}
+ .slideshow-container {
+  max-width: 1000px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 10px
+}
+
+.slideshow {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  border-radius: 10px;
+}
+
+.slide {
+  width: 100%;
+}
+ .navbar1 {
+  background-color: #333;
+  padding: 10px 20px;
+  height: 150px;
+ }
+.navbar-nav1 {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 40px;
+}
+
+.nav-item1 {
+  margin-right: 20px;
+}
+
+.nav-item1.signup {
+  margin-right: 0;
+}
+
+.nav-item1 a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  text-align: center;
+}
+
+.nav-item1 a:hover {
+  color: #ccc;
+}
+ .boxes {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  top: -100px;
+  
+}
+
+.box {
+  margin: -1000px;
+  position: relative;
+  top: -130px;
+  width: 150px;
+  height: 150px;
+  background-color: #915858;
+  border: 1px solid #333;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  margin: 0;
+}
+
+.box:hover {
+  background-color: #ddd;
+}
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
   --purple: #6f42c1;
   --pink: #e83e8c;
   --red: #dc3545;
+  background-color: #14293A;
   --orange: #fd7e14;
   --yellow: #ffc107;
   --green: #28a745;
@@ -57,7 +189,8 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
-  background-color: #fff; }
+  background-color: #14293A; 
+  background-color: #14293A;}
 
 [tabindex="-1"]:focus {
   outline: 0 !important; }
@@ -70,7 +203,8 @@ hr {
 
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
-  margin-bottom: 0.5rem; }
+  margin-bottom: 0.5rem; 
+  font-weight: 700;}
 
 p {
   margin-top: 0;
@@ -8138,7 +8272,8 @@ body {
   line-height: 1.8;
   font-weight: normal;
   background: #fafafa;
-  color: gray; }
+  color: gray;
+  background-color: white; }
 
 a {
   -webkit-transition: .3s all ease;
@@ -8162,7 +8297,8 @@ h1, h2, h3, h4, h5,
   background: #ff0000 !important; }
 
 .ftco-section {
-  padding: 7em 0; }
+  padding: 7em 0;
+  background-color: white; }
 
 .ftco-no-pt {
   padding-top: 0; }
@@ -8185,7 +8321,7 @@ h1, h2, h3, h4, h5,
   padding: 0; }
   @media (max-width: 991.98px) {
     .ftco-navbar-light {
-      background: #000 !important;
+      background: #5c0909 !important;
       position: relative;
       top: 0;
       padding: 10px 15px; } }
@@ -8286,7 +8422,8 @@ h1, h2, h3, h4, h5,
       outline: none !important; }
 
 .navbar-brand {
-  color: #000;
+  color: white;
+  font-style:Impact, fantasy;
   text-transform: uppercase;
   font-weight: 700;
   font-size: 20px;
@@ -8295,8 +8432,9 @@ h1, h2, h3, h4, h5,
   .navbar-brand span {
     display: block;
     font-size: 12px;
+    font-style: italic;
     font-weight: 500;
-    color: rgba(0, 0, 0, 0.3); }
+    color: skyblue; }
   .navbar-brand:hover, .navbar-brand:focus {
     color: #000; }
 

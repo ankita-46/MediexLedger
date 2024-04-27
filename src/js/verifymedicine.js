@@ -19,11 +19,11 @@ App = {
 
     initContract: function() {
 
-        $.getJSON('product.json',function(data){
+        $.getJSON('medicine.json',function(data){
 
-            var productArtifact=data;
-            App.contracts.product=TruffleContract(productArtifact);
-            App.contracts.product.setProvider(App.web3Provider);
+            var medicineArtifact=data;
+            App.contracts.medicine=TruffleContract(medicineArtifact);
+            App.contracts.medicine.setProvider(App.web3Provider);
         });
 
         return App.bindEvents();
@@ -36,9 +36,9 @@ App = {
 
     getData:function(event) {
         event.preventDefault();
-        var productSN = document.getElementById('productSN').value;
+        var medicineSN = document.getElementById('medicineSN').value;
         var consumerCode = document.getElementById('consumerCode').value;
-        var productInstance;
+        var medicineInstance;
         //window.ethereum.enable();
         web3.eth.getAccounts(function(error,accounts){
 
@@ -48,10 +48,10 @@ App = {
 
             var account=accounts[0];
             // console.log(account);
-            App.contracts.product.deployed().then(function(instance){
+            App.contracts.medicine.deployed().then(function(instance){
 
-                productInstance=instance;
-                return productInstance.verifyProduct(web3.fromAscii(productSN), web3.fromAscii(consumerCode),{from:account});
+                medicineInstance=instance;
+                return medicineInstance.verifymedicine(web3.fromAscii(medicineSN), web3.fromAscii(consumerCode),{from:account});
 
             }).then(function(result){
                 
@@ -61,9 +61,9 @@ App = {
 
                 var tr="<tr>";
                 if(result){
-                    tr+="<td>"+ "Genuine Product."+"</td>";
+                    tr+="<td>"+ "Genuine medicine."+"</td>";
                 }else{
-                    tr+="<td>"+ "Fake Product."+"</td>";
+                    tr+="<td>"+ "Fake medicine."+"</td>";
                 }
                 tr+="</tr>";
                 t+=tr;

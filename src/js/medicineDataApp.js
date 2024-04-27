@@ -19,11 +19,11 @@ App = {
 
     initContract: function() {
 
-        $.getJSON('product.json',function(data){
+        $.getJSON('medicine.json',function(data){
 
-            var productArtifact=data;
-            App.contracts.product=TruffleContract(productArtifact);
-            App.contracts.product.setProvider(App.web3Provider);
+            var medicineArtifact=data;
+            App.contracts.medicine=TruffleContract(medicineArtifact);
+            App.contracts.medicine.setProvider(App.web3Provider);
         });
 
         return App.bindEvents();
@@ -38,7 +38,7 @@ App = {
         event.preventDefault();
         var sellerCode = document.getElementById('sellerCode').value;
 
-        var productInstance;
+        var medicineInstance;
         //window.ethereum.enable();
         web3.eth.getAccounts(function(error,accounts){
 
@@ -49,63 +49,63 @@ App = {
             var account=accounts[0];
             // console.log(account);
 
-            App.contracts.product.deployed().then(function(instance){
+            App.contracts.medicine.deployed().then(function(instance){
 
-                productInstance=instance;
-                return productInstance.queryProductsList(web3.fromAscii(sellerCode),{from:account});
+                medicineInstance=instance;
+                return medicineInstance.querymedicinesList(web3.fromAscii(sellerCode),{from:account});
 
             }).then(function(result){
                 
                 //console.log()
-                var productIds=[];
-                var productSNs=[];
-                var productNames=[];
-                var productBrands=[];
-                var productPrices=[];
-                var productStatus=[];
+                var medicineIds=[];
+                var medicineSNs=[];
+                var medicineNames=[];
+                var medicineBrands=[];
+                var medicinePrices=[];
+                var medicineStatus=[];
 
                 // console.log(result);
                 
                 for(var k=0;k<result[0].length;k++){
-                    productIds[k]=result[0][k];
+                    medicineIds[k]=result[0][k];
                 }
 
                 for(var k=0;k<result[1].length;k++){
-                    productSNs[k]=web3.toAscii(result[1][k]);
+                    medicineSNs[k]=web3.toAscii(result[1][k]);
 
                 }
 
                 for(var k=0;k<result[2].length;k++){
-                    productNames[k]=web3.toAscii(result[2][k]);
+                    medicineNames[k]=web3.toAscii(result[2][k]);
                 }
 
                 for(var k=0;k<result[3].length;k++){
-                    productBrands[k]=web3.toAscii(result[3][k]);
+                    medicineBrands[k]=web3.toAscii(result[3][k]);
                 }
 
                 for(var k=0;k<result[4].length;k++){
-                    productPrices[k]=result[4][k];
+                    medicinePrices[k]=result[4][k];
                 }
 
                 for(var k=0;k<result[5].length;k++){
-                    productStatus[k]=web3.toAscii(result[5][k]);
+                    medicineStatus[k]=web3.toAscii(result[5][k]);
                 }
 
                 var t= "";
                 document.getElementById('logdata').innerHTML = t;
                 for(var i=0;i<result[0].length;i++) {
-                    var temptr = "<td>"+productPrices[i]+"</td>";
+                    var temptr = "<td>"+medicinePrices[i]+"</td>";
                     if(temptr === "<td>0</td>"){
                         break;
                     }
 
                     var tr="<tr>";
-                    tr+="<td>"+productIds[i]+"</td>";
-                    tr+="<td>"+productSNs[i]+"</td>";
-                    tr+="<td>"+productNames[i]+"</td>";
-                    tr+="<td>"+productBrands[i]+"</td>";
-                    tr+="<td>"+productPrices[i]+"</td>";
-                    tr+="<td>"+productStatus[i]+"</td>";
+                    tr+="<td>"+medicineIds[i]+"</td>";
+                    tr+="<td>"+medicineSNs[i]+"</td>";
+                    tr+="<td>"+medicineNames[i]+"</td>";
+                    tr+="<td>"+medicineBrands[i]+"</td>";
+                    tr+="<td>"+medicinePrices[i]+"</td>";
+                    tr+="<td>"+medicineStatus[i]+"</td>";
                     tr+="</tr>";
                     t+=tr;
 

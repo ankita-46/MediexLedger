@@ -20,11 +20,11 @@ App = {
 
     initContract: function() {
 
-        $.getJSON('product.json',function(data){
+        $.getJSON('medicine.json',function(data){
 
-            var productArtifact=data;
-            App.contracts.product=TruffleContract(productArtifact);
-            App.contracts.product.setProvider(App.web3Provider);
+            var medicineArtifact=data;
+            App.contracts.medicine=TruffleContract(medicineArtifact);
+            App.contracts.medicine.setProvider(App.web3Provider);
         });
 
         return App.bindEvents();
@@ -32,19 +32,19 @@ App = {
 
     bindEvents: function() {
 
-        $(document).on('click','.btn-register',App.registerProduct);
+        $(document).on('click','.btn-register',App.registermedicine);
     },
 
-    registerProduct: function(event) {
+    registermedicine: function(event) {
         event.preventDefault();
 
-        var productInstance;
+        var medicineInstance;
 
         var manufacturerID = document.getElementById('manufacturerID').value;
-        var productName = document.getElementById('productName').value;
-        var productSN = document.getElementById('productSN').value;
-        var productBrand = document.getElementById('productBrand').value;
-        var productPrice = document.getElementById('productPrice').value;
+        var medicineName = document.getElementById('medicineName').value;
+        var medicineSN = document.getElementById('medicineSN').value;
+        var medicineBrand = document.getElementById('medicineBrand').value;
+        var medicinePrice = document.getElementById('medicinePrice').value;
 
         //window.ethereum.enable();
         web3.eth.getAccounts(function(error,accounts){
@@ -57,17 +57,17 @@ App = {
             var account=accounts[0];
             // console.log(account);
 
-            App.contracts.product.deployed().then(function(instance){
-                productInstance=instance;
-                return productInstance.addProduct(web3.fromAscii(manufacturerID),web3.fromAscii(productName), web3.fromAscii(productSN), web3.fromAscii(productBrand), productPrice, {from:account});
+            App.contracts.medicine.deployed().then(function(instance){
+                medicineInstance=instance;
+                return medicineInstance.addmedicine(web3.fromAscii(manufacturerID),web3.fromAscii(medicineName), web3.fromAscii(medicineSN), web3.fromAscii(medicineBrand), medicinePrice, {from:account});
              }).then(function(result){
                 // console.log(result);
 
                 document.getElementById('manufacturerID').value='';
-                document.getElementById('productName').value='';
-                document.getElementById('productSN').value='';
-                document.getElementById('productBrand').value='';
-                document.getElementById('productPrice').value='';
+                document.getElementById('medicineName').value='';
+                document.getElementById('medicineSN').value='';
+                document.getElementById('medicineBrand').value='';
+                document.getElementById('medicinePrice').value='';
 
             }).catch(function(err){
                 console.log(err.message);

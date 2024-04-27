@@ -20,11 +20,11 @@ App = {
 
     initContract: function() {
 
-        $.getJSON('product.json',function(data){
+        $.getJSON('medicine.json',function(data){
 
-            var productArtifact=data;
-            App.contracts.product=TruffleContract(productArtifact);
-            App.contracts.product.setProvider(App.web3Provider);
+            var medicineArtifact=data;
+            App.contracts.medicine=TruffleContract(medicineArtifact);
+            App.contracts.medicine.setProvider(App.web3Provider);
         });
 
         return App.bindEvents();
@@ -32,13 +32,13 @@ App = {
 
     bindEvents: function() {
 
-        $(document).on('click','.btn-register',App.registerProduct);
+        $(document).on('click','.btn-register',App.registermedicine);
     },
 
-    registerProduct: function(event) {
+    registermedicine: function(event) {
         event.preventDefault();
 
-        var productInstance;
+        var medicineInstance;
 
         var sellerName = document.getElementById('SellerName').value;
         var sellerBrand = document.getElementById('SellerBrand').value;
@@ -60,9 +60,9 @@ App = {
             var account=accounts[0];
             // console.log(account);
 
-            App.contracts.product.deployed().then(function(instance){
-                productInstance=instance;
-                return productInstance.addSeller(web3.fromAscii(ManufacturerId),web3.fromAscii(sellerName),web3.fromAscii(sellerBrand), web3.fromAscii(sellerCode), sellerPhoneNumber, web3.fromAscii(sellerManager), web3.fromAscii(sellerAddress), {from:account});
+            App.contracts.medicine.deployed().then(function(instance){
+                medicineInstance=instance;
+                return medicineInstance.addSeller(web3.fromAscii(ManufacturerId),web3.fromAscii(sellerName),web3.fromAscii(sellerBrand), web3.fromAscii(sellerCode), sellerPhoneNumber, web3.fromAscii(sellerManager), web3.fromAscii(sellerAddress), {from:account});
              }).then(function(result){
                 console.log(result);
                 window.location.reload();

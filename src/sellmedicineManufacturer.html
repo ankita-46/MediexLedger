@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Fake Product Identification</title>
+  	<title>MediexLedger</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
@@ -16,10 +16,10 @@
 				<div class="col-md-8 order-md-last">
 					<div class="row">
 						<div class="col-md-6 text-center">
-							<a class="navbar-brand" href="index.html">Fake Product Identification <span>through Blockchain</span></a>
+							<a class="navbar-brand" href="index.html"><h1>MediexLedger</h1> <span>India's Safest Pharmacy </span></a>
 						</div>
 						<div class="col-md-6 d-md-flex justify-content-end mb-md-0 mb-3">
-							<form action="#" class="searchform order-lg-last">
+							
 			          
 			        </form>
 						</div>
@@ -49,11 +49,12 @@
 	    </div>
 	  </nav>
     <!-- END nav -->
-	
-	<section>
+
+	</section>
+    <section>
         <div class="container">
-            <h2>Verify Products</h2>
-              
+            <h2>Sell Medicine to Seller</h2>
+
 			<section>
 				<div class="container-fluid">
 					<center>
@@ -62,58 +63,59 @@
 					</center>
 				</div>
 			</section>
-			  
-              <div class="form-group">
-				<label for="productSN">Product SN:</label>
-                <input disabled type="text" class="form-control" id="productSN" placeholder="Enter Product SN" name="productSN">
-                
-				<label for="consumerCode">Consumer Code</label>
-                <input type="text" class="form-control" id="consumerCode" placeholder="Enter Consumer Code" name="consumerCode">
-              </div>
+
+			<div>
+				<table width="100%">
+					<tr width="100%">
+						<td width="15" align="center">
+							<label for="medicineSN">Medicine SN:</label>
+							</td>
+							<td width = "30%" >
+							<input disabled class="form-control" id="medicineSN" name="medicineSN" type="text" />
+						</td>
+
+						<td width="15%" align="center">
+						<label for="sellerCode">Seller Code</label>
+						</td>
+						<td width = "30%">
+						<input  class="form-control" id="sellerCode" name="sellerCode" type="text" />
+						</td>
+
+					</tr>
+                    
+						
+					</tr>
+				</table>
+			  </div>
+			  <div class="clear">&nbsp;</div>
+
+
               
-              <button type="submit" class="btn btn-warning btn-register" id="register">Get Product Status</button>
+              
+              <button type="submit" class="btn btn-warning btn-register" id="register">Sell to Seller</button>
           </div>
     </section>
 
-
-	<br/>
-    <section>
-        <div class="container">
-            <h2>Is the product sold to cunsumer is fake or not?</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Product Verification Result</th>
-                    </tr>
-                </thead>
-                <tbody id="logdata">
-
-                </tbody>
-            </table>
-            <center><p>Your address is <b id="add"></b></p></center>
-        </div>
-    </section>
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="js/popper.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/main.js"></script>
-	<script src="js/web3.min.js"></script>
-	<script src="js/truffle-contract.js"></script>
-	<script src="js/verifyProduct.js"></script>
-	<script src="https://unpkg.com/html5-qrcode"></script>
-	<script>
-	var decodedText = "Enter Product SN";
-    function docReady(fn) {
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="js/popper.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/web3.min.js"></script>
+  <script src="js/truffle-contract.js"></script>
+  <script src="js/sellmedicineManufacturer.js"></script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script>
+	var decodedText = "Enter medicine SN";
+     function docReady(fn) {
         // see if DOM is already available
         if (document.readyState === "complete"
-            || document.readyState === "interactive") {
-            // call on next available tick
-            setTimeout(fn, 1);
+           || document.readyState === "interactive") {
+	        // call on next available tick
+           setTimeout(fn, 1);
         } else {
             document.addEventListener("DOMContentLoaded", fn);
         }
-    }
+    } 
 
     docReady(function () {
         var resultContainer = document.getElementById('qr-reader-results');
@@ -127,7 +129,7 @@
                 audio.play();
                 // console.log(`Scan result ${decodedText}`, decodedResult);
                 document.getElementById('qr-reader-results').innerHTML=decodedText;
-				document.getElementById("productSN").value = decodedText;
+				document.getElementById("medicineSN").value = decodedText;
 				//App.init(decodedText);
                 
             }
@@ -140,7 +142,3 @@
   </script>
   </body>
 </html>
-
-
-
-

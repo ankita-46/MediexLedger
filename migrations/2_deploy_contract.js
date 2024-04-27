@@ -1,5 +1,5 @@
-var product=artifacts.require('product');
+var medicine=artifacts.require('medicine');
 
 module.exports=function(deployer) {
-    deployer.deploy(product); 
+    deployer.deploy(medicine); 
 }
