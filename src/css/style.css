@@ -7,7 +7,11 @@
  /* Styles for the news button */
 /* Styles for the news button */
 
-
+body{
+  margin: 0px;
+  padding: 0px;
+  height: 100vh;
+}
 #news-button {
   background-color: #007bff; /* Blue background color */
   color: #fff; /* White text color */
