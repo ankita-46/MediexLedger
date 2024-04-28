@@ -7,14 +7,43 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia"> -->
 	<link rel="stylesheet" href="css/style.css">
+	<style>
+	
+
+	#logo {
+		font-family: "Sofia", sans-serif;
+		font-size: 39px;
+	}
+
+	#logolink {
+		color: white;
+		text-decoration: none;
+	}
+
+	.logo {
+		width: 182px;
+		display: flex;
+		justify-content: space-between;
+		margin-right: 900px;
+		margin-top: -30px;
+	}
+	#logopic{
+		border-radius: 50%;
+		width: 80px;
+		height: 70px;
+		padding-bottom: 10px;
+	}
+	</style>
 
 </head>
 
 <body>
 	<nav class="navbar1" style="height: 90px;">
 		<ul class="navbar-nav1">
-			<a class="navbar-brand" href="index.html"><img src="./image/logo.png" alt="Logo" style="
+			<!-- <div>
+				<a class="navbar-brand" href="index.html"><img src="./image/logo.png" alt="Logo" style="
 					max-width: 90px;
 					max-height: 100px;
 					border-radius: 50%;
@@ -22,12 +51,25 @@
 					margin-top: -50px;
 					margin-left: 10px;
 					"></a>
+			<span style="color: white;"> MediexLedger</span>
+			</div> -->
+			<a href="index.html" id="logolink" class="logo">
+				<img src="./image/logo1.jpg" alt="" id="logopic">
+				<div id="logo" style="padding-left: 10px;">MediexLedger</div>
+			</a>
 			<div style="display: flex; padding: 10px; position: relative;">
 				<li class="nav-item1"><a href="index.html">Home</a></li>
 				<li class="nav-item1"><a href="about.html">About</a></li>
 				<li class="nav-item1"><a href="gallery.html">Gallery</a></li>
 				<li class="nav-item1"><a href="contract.html">Contact</a></li>
-				<li class="nav-item1" style="width: 60px;"><a href="#">Sign Up</a></li>
+				<!-- <li class="nav-item1" style="width: 60px;"><a href="#">Login</a></li> -->
+				<li class="nav-item1" style="width: 80px; padding-left: 50px;" >
+					<a href="#" style="background-color: transparent; border: 1px solid white; border-radius: 10%; padding: 5px 10px; text-decoration: none; color: white; transition: background-color 0.3s, color 0.3s;">
+						Login
+					</a>
+				</li>
+				
+				  
 			</div>
 		</ul>
 	</nav>
@@ -37,22 +79,22 @@
 		<div class="acc">
 			<div class="single-line-text">
 				<a href="https://www.thehindu.com/news/national/counterfeit-medicines-of-about-2-crores-of-leading-manufacturers-seized/article67154464.ece"
-					target="_blank"><button class="news-button">News</button>Counterfeit medicines of about ₹2 crores of
+					target="_blank"><button className="news-button" style="height: 40px;width: 70px;  border-radius: 10% ; margin-top:10px; margin-bottom: 10px; margin-left: 5px;margin-right: 5px; ">News</button>Counterfeit medicines of about ₹2 crores of
 					leading manufacturers seized</a>
 			</div>
 			<div class="single-line-text">
 				<a href="https://www.pharmaceutical-technology.com/analyst-comment/drug-counterfeiting-is-rising-rapidly-in-emerging-markets/"
-					target="_blank"><button class="news-button">News</button>Threat!!! Drug counterfeiting is rising rapidly
+					target="_blank"><button class="news-button" style="height: 40px;width: 70px;  border-radius: 10% ; margin-top:10px; margin-bottom: 10px; margin-left: 5px;margin-right: 5px; ">News</button>Threat!!! Drug counterfeiting is rising rapidly
 					in emerging markets</a>
 			</div>
 			<div class="single-line-text">
 				<a href="https://www.theguardian.com/science/2019/mar/11/fake-drugs-kill-more-than-250000-children-a-year-doctors-warn"
-					target="_blank"><button class="news-button">News</button>Fake drugs kill more than 250,000 children a
+					target="_blank"><button class="news-button" style="height: 40px;width: 70px;  border-radius: 10% ; margin-top:10px; margin-bottom: 10px; margin-left: 5px; margin-right: 5px;">News</button>Fake drugs kill more than 250,000 children a
 					year, doctors warn</a>
 			</div>
 			<div class="single-line-text">
 				<a href="https://edition.cnn.com/2019/03/11/health/fake-drugs-killing-children-study/index.html"
-					target="_blank"><button class="news-button">News</button>Global ‘pandemic’ of fake drugs killing
+					target="_blank"><button class="news-button" style="height: 40px;width: 70px;  border-radius: 10% ; margin-top:10px; margin-bottom: 10px; margin-left: 5px;margin-right: 5px; ">News</button>Global ‘pandemic’ of fake drugs killing
 					children worldwide, report says</a>
 			</div>
 
@@ -111,29 +153,71 @@
 			</div>
 		</nav> -->
 			<!-- END nav -->
-			<div style="display: flex; margin-top:px; width: 100vh; margin-left: 200px; margin-bottom: 20px;">
-				<a href="index.html" style="color:#33348e; text-decoration: none; background-color: #90b8e4; padding: 30px; border-radius: 10%; margin-right: 10px;">Home</a>
-				<a href="manufacturer.html" style="color:#33348e; text-decoration: none; background-color: #90b8e4; padding: 30px; border-radius: 10%; margin-right: 10px;">Manufacturer</a>
-				<a href="seller.html" style="color:#33348e; text-decoration: none; background-color: #90b8e4; padding: 30px; border-radius: 10%; margin-right: 10px;">Seller</a>
-				<a href="consumer.html" style="color:#33348e; text-decoration: none; background-color: #90b8e4; padding: 30px; border-radius: 10%;">Consumer</a>
+			
+			<!-- cards -->
+			<div class="card-container">
+				<div class="card">
+					<img src="image/home.jpg.png">
+					<div class="card-content">
+						<h3>Home</h3>
+						<a href="index.html" class="btn">Click Here</a>
+					</div>
+				</div>
+				<div class="card">
+					<img src="image/manufacture.jpeg">
+					<div class="card-content">
+						<h3>Manufacturer</h3>
+						<a href="manufacturer.html" class="btn">Click Here</a>
+					</div>
+				</div>
+				<div class="card">
+					<img src="image/supplier.jpeg">
+					<div class="card-content">
+						<h3>Seller</h3>
+						<!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p> -->
+						<a href="seller.html" class="btn">Click Here</a>
+					</div>
+				</div>
+			
+				<div class="card"> 
+					 <img src="image/consumer.jpeg">
+					<div class="card-content">
+						<h3>Consumer</h3>
+						<!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p> -->
+						<a href="consumer.html" class="btn">Click Here</a>
+					</div>
+				</div>
 			</div>
+			<!--End card-->
+			<footer style="text-align: center; padding: 20px 0;">
+				<div class="container" style="display: flex; flex-direction: column; align-items: center;">
+					<div class="icons" style="margin-bottom: 20px;">
+						<a href="https://www.facebook.com/" class="sociallogos" target="_blank"><img src="image/facebook.png" alt="facebook" width="2.5%" style="margin-right: 10px;"></a>
+						<a href="https://www.instagram.com" class="sociallogos" target="_blank"><img src="image/instagram.png" alt="instagram" width="2.5%" style="margin-right: 10px;"></a>
+						<a href="https://www.twitter.com" class="sociallogos" target="_blank"><img src="image/twitter.png" alt="twitter" width="2.5%" style="margin-right: 10px;"></a>
+					</div>
+					<ul class="list-inline" style="padding: 0; margin: 0;">
+						<li class="list-inline-item" style="display: inline-block; margin-right: 10px;"><a href="#" style="color: white;">Services</a></li>
+						<li class="list-inline-item" style="display: inline-block; margin-right: 10px;"><a href="#" style="color: white;">About</a></li>
+						<li class="list-inline-item" style="display: inline-block; margin-right: 10px;"><a href="#" style="color: white;">Terms</a></li>
+						<li class="list-inline-item" style="display: inline-block; margin-right: 10px;"><a href="#" style="color: white;">Privacy Policy</a></li>
+					</ul>
+					<p class="copyright" style="margin-top: 10px; color: white;">MediexLedger © 2024</p>
+				</div>
+			</footer>
 
 
 		
 	</div>
 
-	<!-- <div class="container-fluid px-md-5">
-		<div class="row justify-content-between">
-			<div class="col-md-12 order-md-last">
-				<div class="row">
-					<div class="col-md-12 text-center">
+	
 
 						<!-- <a class="navbar-brand" href="index.html">Welcome to MediexLedger</a> -->
 					<!-- </div>
 					<div class="col-md-6 d-md-flex justify-content-end mb-md-0 mb-3">
 						<!-- <form action="#" class="searchform order-lg-last"> -->
-
-
+							
+							
 
 			<script src="js/jquery.min.js"></script>
 			<script src="js/bootstrap.min.js"></script>
