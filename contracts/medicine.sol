@@ -6,6 +6,7 @@ contract medicine {
     uint256 sellerCount;
     uint256 medicineCount;
 
+     // Structure to store seller information
     struct seller{
         uint256 sellerId;
         bytes32 sellerName;
@@ -17,6 +18,7 @@ contract medicine {
     }
     mapping(uint=>seller) public sellers;
 
+    // Structure to store medicine information
     struct medicineItem{
         uint256 medicineId;
         bytes32 medicineSN;
@@ -38,6 +40,7 @@ contract medicine {
 
     //SELLER SECTION
 
+     // Add a new seller
     function addSeller(bytes32 _manufacturerId, bytes32 _sellerName, bytes32 _sellerBrand, bytes32 _sellerCode,
     uint256 _sellerNum, bytes32 _sellerManager, bytes32 _sellerAddress) public{
         sellers[sellerCount] = seller(sellerCount, _sellerName, _sellerBrand, _sellerCode,
@@ -47,7 +50,7 @@ contract medicine {
         sellersWithManufacturer[_manufacturerId].push(_sellerCode);
     }
 
-
+     // View all sellers
     function viewSellers () public view returns(uint256[] memory, bytes32[] memory, bytes32[] memory, bytes32[] memory, uint256[] memory, bytes32[] memory, bytes32[] memory) {
         uint256[] memory ids = new uint256[](sellerCount);
         bytes32[] memory snames = new bytes32[](sellerCount);
@@ -71,6 +74,7 @@ contract medicine {
 
     //medicine SECTION
 
+    //add medicine
     function addmedicine(bytes32 _manufactuerID, bytes32 _medicineName, bytes32 _medicineSN, bytes32 _medicineBrand,
     uint256 _medicinePrice) public{
         medicineItems[medicineCount] = medicineItem(medicineCount, _medicineSN, _medicineName, _medicineBrand,
@@ -80,6 +84,7 @@ contract medicine {
         medicinesManufactured[_medicineSN] = _manufactuerID;
     }
     
+    //view all medicines added
     function viewmedicineItems () public view returns(uint256[] memory, bytes32[] memory, bytes32[] memory, bytes32[] memory, uint256[] memory, bytes32[] memory) {
         uint256[] memory pids = new uint256[](medicineCount);
         bytes32[] memory pSNs = new bytes32[](medicineCount);
@@ -101,12 +106,14 @@ contract medicine {
 
     //SELL medicine
 
+    // Function to record the sale of medicine by a manufacturer
     function manufacturerSellmedicine(bytes32 _medicineSN, bytes32 _sellerCode) public{
         medicinesWithSeller[_sellerCode].push(_medicineSN);
         medicinesForSale[_medicineSN] = _sellerCode;
 
     }
 
+    // Function to record the sale of medicine by a seller to a consumer
     function sellerSellmedicine(bytes32 _medicineSN, bytes32 _consumerCode) public{   
         bytes32 pStatus;
         uint256 i;
@@ -130,7 +137,7 @@ contract medicine {
 
     }
 
-
+    // Function to query the list of medicines available for sale by a particular seller
     function querymedicinesList(bytes32 _sellerCode) public view returns(uint256[] memory, bytes32[] memory, bytes32[] memory, bytes32[] memory, uint256[] memory, bytes32[] memory){
         bytes32[] memory medicineSNs = medicinesWithSeller[_sellerCode];
         uint256 k=0;
@@ -159,6 +166,7 @@ contract medicine {
         return(pids, pSNs, pnames, pbrands, pprices, pstatus);
     }
 
+    // Function to query the list of sellers associated with a specific manufacturer
     function querySellersList (bytes32 _manufacturerCode) public view returns(uint256[] memory, bytes32[] memory, bytes32[] memory, bytes32[] memory, uint256[] memory, bytes32[] memory, bytes32[] memory) {
         bytes32[] memory sellerCodes = sellersWithManufacturer[_manufacturerCode];
         uint256 k=0;
@@ -188,7 +196,8 @@ contract medicine {
 
         return(ids, snames, sbrands, scodes, snums, smanagers, saddress);
     }
-
+    
+    //to get purchase history of any particular consumer 
     function getPurchaseHistory(bytes32 _consumerCode) public view returns (bytes32[] memory, bytes32[] memory, bytes32[] memory){
         bytes32[] memory medicineSNs = medicinesWithConsumer[_consumerCode];
         bytes32[] memory sellerCodes = new bytes32[](medicineSNs.length);
@@ -200,7 +209,8 @@ contract medicine {
         return (medicineSNs, sellerCodes, manufacturerCodes);
     }
 
-    //Verify
+
+    //Verify whether medicine is genuine or not
 
     function verifymedicine(bytes32 _medicineSN, bytes32 _consumerCode) public view returns(bool){
         if(medicinesSold[_medicineSN] == _consumerCode){
