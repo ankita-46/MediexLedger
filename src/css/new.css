@@ -67,10 +67,10 @@ body {
 }
 
 .contact img {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  object-fit: cover;
+  object-fit: contain;
   margin-bottom: 10px;
 }
 
@@ -89,6 +89,41 @@ body {
 
 .contact .details a:hover {
   text-decoration: underline;
+}
+/* sir */
+.container {
+  text-align: center;
+}
+
+.text-section {
+  
+  text-align: center;
+}
+
+.photo {
+  align-items: center;
+  margin-left: 690px;
+  width: 150px; /* Adjust size as needed */
+  height: 150px; /* Adjust size as needed */
+  background-color: #ccc; /* Placeholder background color */
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  align-content: center;
+  justify-content: center;
+}
+
+.text-section p {
+  margin: 0;
+}
+
+.text-section p:first-child {
+  font-weight: bold;
 }
 
   
