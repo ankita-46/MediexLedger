@@ -1,1 +1,1 @@
-# MediexChain
+# MediexLedger
