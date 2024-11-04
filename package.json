@@ -14,5 +14,7 @@
   "dependencies": {
     "@truffle/hdwallet-provider": "^2.0.15",
     "cors": "^2.8.5"
-  }
+  },
+  "author": "",
+  "license": "ISC"
 }
