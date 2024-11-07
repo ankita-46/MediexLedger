@@ -1,3 +1,236 @@
+<!-- <!doctype html>
+<html lang="en">
+<head>
+    <title>MediexLedger</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .request-item {
+            border: 2px solid #ccc;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: row;
+            background-color: #f9f9f9;
+            position: relative;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .serial-number {
+            width: 50px;
+            margin-right: 15px;
+        }
+
+        .request-content {
+            flex-grow: 1;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: auto;
+            font-size: 20px;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            cursor: pointer;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<section class="ftco-section">
+    <div class="container-fluid px-md-5">
+        <div class="row justify-content-between">
+            <div class="col-md-8 order-md-last">
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <img src="./image/logo1.jpg" alt="" id="logopic" style="width: 200px; height: auto; margin-top: -140px;">
+                        <a class="navbar-brand" href="index.html">
+                            <h1 style="text-transform: none;">MediexLedger</h1> <span>India's Safest Pharmacy </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex">
+                <div class="social-media"></div>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="fa fa-bars"></span> Menu
+            </button>
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav m-auto">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="Request_to_hospital.html" class="nav-link">Request Medicine</a></li>
+                    <li class="nav-item"><a href="Sell_to_hospital.html" class="nav-link">Sell Medicine</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</section>
+
+<section>
+    <div class="container">
+        <h2>Medicine Requests</h2>
+        <div id="loginPrompt">
+            <label for="hospitalName">Enter Your Hospital UserName:</label>
+            <input type="text" id="hospitalName" placeholder="Enter hospital name">
+            <button onclick="loadRequests()">View Requests</button>
+        </div>
+        <div id="requestsContainer">
+        </div>
+    </div>
+</section>
+
+<footer style="text-align: center; padding: 20px 0; margin-top: 40px;">
+    <div class="container" style="display: flex; flex-direction: column; align-items: center;">
+        <div class="icons" style="margin-bottom: 20px;">
+            <a href="https://www.facebook.com/" class="sociallogos" target="_blank"><img src="image/facebook.png" alt="facebook" width="2.5%" style="margin-right: 10px;"></a>
+            <a href="https://www.instagram.com" class="sociallogos" target="_blank"><img src="image/instagram.png" alt="instagram" width="2.5%" style="margin-right: 10px;"></a>
+            <a href="https://www.twitter.com" class="sociallogos" target="_blank"><img src="image/twitter.png" alt="twitter" width="2.5%" style="margin-right: 10px;"></a>
+        </div>
+        <ul class="list-inline" style="padding: 0; margin: 0;">
+            <li class="list-inline-item"><a href="index.html" style="color: white;">Home</a></li>
+            <li class="list-inline-item"><a href="about.html" style="color: white;">About</a></li>
+            <li class="list-inline-item"><a href="#" style="color: white;">Terms</a></li>
+            <li class="list-inline-item"><a href="#" style="color: white;">Privacy Policy</a></li>
+        </ul>
+        <p class="copyright" style="margin-top: 10px; color: white;">MediexLedger © 2024</p>
+        <p class="copyright" style="margin-top: -20px; color: white;">(Under Supervision of Amit Biswas Sir)</p>
+    </div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/web3.min.js"></script>
+<script src="js/truffle-contract.js"></script>
+<script>
+    function loadRequests() {
+        const hospitalName = document.getElementById('hospitalName').value.trim();
+        if (!hospitalName) {
+            alert('Please enter your hospital name to see requests.');
+            return;
+        }
+
+        const requests = JSON.parse(localStorage.getItem('medicineRequests')) || [];
+        const requestsContainer = document.getElementById('requestsContainer');
+        requestsContainer.innerHTML = '';
+
+        const incomingRequests = requests.filter(request => request.recipientHospital === hospitalName);
+        const outgoingRequests = requests.filter(request => request.requestingHospital === hospitalName);
+
+        if (incomingRequests.length === 0 && outgoingRequests.length === 0) {
+            requestsContainer.innerHTML = `<p>No requests for ${hospitalName}.</p>`;
+            return;
+        }
+
+        incomingRequests.forEach((request, index) => {
+            const requestDiv = createRequestDiv(request, 'From', request.requestingHospital, request.status, index, true);
+            requestsContainer.appendChild(requestDiv);
+        });
+
+        outgoingRequests.forEach((request, index) => {
+            const requestDiv = createRequestDiv(request, 'To', request.recipientHospital, request.status, index, false);
+            requestsContainer.appendChild(requestDiv);
+        });
+    }
+
+    function createRequestDiv(request, direction, otherHospital, status, index, isIncoming) {
+        const requestDiv = document.createElement('div');
+        requestDiv.className = 'request-item';
+        requestDiv.innerHTML = `
+            <div class="serial-number">${index + 1}</div>
+            <div class="request-content">
+                <p><strong>${direction}:</strong> ${otherHospital}</p>
+                <p><strong>Medicine:</strong> ${request.medicineName}</p>
+                <p><strong>Quantity:</strong> ${request.quantity}</p>
+                <p><strong>Status:</strong> <span id="status-${index}">${status}</span></p>
+            </div>
+            ${isIncoming ? `
+            <div class="btn-container" id="buttons-${index}">
+                <button class="btn btn-success" onclick="approveRequest(${index})">Approve</button>
+                <button class="btn btn-danger" onclick="rejectRequest(${index})">Reject</button>
+            </div>` : ''}
+        `;
+        return requestDiv;
+    }
+
+    function approveRequest(index) {
+        updateRequestStatus(index, 'approved');
+    }
+
+    function rejectRequest(index) {
+        updateRequestStatus(index, 'rejected');
+    }
+
+    function updateRequestStatus(index, status) {
+        let requests = JSON.parse(localStorage.getItem('medicineRequests')) || [];
+        
+       
+        requests[index].status = status;
+        localStorage.setItem('medicineRequests', JSON.stringify(requests));
+
+        document.getElementById(`status-${index}`).innerText = status.charAt(0).toUpperCase() + status.slice(1);
+        
+        document.getElementById(`buttons-${index}`).style.display = 'none';
+
+        const statusMessage = document.createElement('p');
+        statusMessage.innerText = status.charAt(0).toUpperCase() + status.slice(1);
+        statusMessage.style.fontWeight = 'bold';
+        
+        document.querySelector(`#buttons-${index}`).parentNode.appendChild(statusMessage);
+        if (requests[index].requestingHospital) {
+            const outgoingIndex = requests.findIndex(req => 
+                req.requestingHospital === requests[index].requestingHospital && 
+                req.recipientHospital === requests[index].recipientHospital
+            );
+            if (outgoingIndex !== -1) {
+                requests[outgoingIndex].status = status;
+                localStorage.setItem('medicineRequests', JSON.stringify(requests));
+                const requestorStatusElement = document.getElementById(`status-${outgoingIndex}`);
+                if (requestorStatusElement) {
+                    requestorStatusElement.innerText = status.charAt(0).toUpperCase() + status.slice(1);
+                }
+            }
+        }
+    }
+</script>
+
+
+</body>
+</html> -->
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,28 +247,28 @@
             margin-bottom: 10px;
             border-radius: 8px;
             display: flex;
-            flex-direction: row; /* Changed to row for horizontal layout */
+            flex-direction: row;
             background-color: #f9f9f9;
             position: relative;
-            align-items: center; /* Align items vertically in the center */
+            align-items: center;
             margin-bottom: 20px;
         }
 
         .serial-number {
-            width: 50px; /* Fixed width for the serial number */
-            margin-right: 15px; /* Space between the serial number and content */
+            width: 50px;
+            margin-right: 15px;
         }
 
         .request-content {
-            flex-grow: 1; /* Allow this section to take the remaining space */
+            flex-grow: 1;
         }
 
         .btn {
             display: inline-block;
-            padding: auto; /* Smaller padding */
-            font-size: 20px; /* Smaller font size */
+            padding: auto;
+            font-size: 20px;
             border-radius: 5px;
-            margin-left: 5px; /* Space between buttons */
+            margin-left: 5px;
         }
         
         .btn-success {
@@ -101,9 +334,14 @@
 
 <section>
     <div class="container">
-        <h2>Incoming Medicine Requests</h2>
-        <div id="incomingRequests">
-            <!-- Medicine requests will be dynamically populated here -->
+        <h2>Medicine Requests</h2>
+        <div id="loginPrompt">
+            <label for="hospitalName">Enter Your Hospital UserName:</label>
+            <input type="text" id="hospitalName" placeholder="Enter hospital name">
+            <button onclick="loadRequests()">View Requests</button>
+        </div>
+        <div id="requestsContainer">
+            <!-- Incoming and Outgoing requests will be dynamically populated here -->
         </div>
     </div>
 </section>
@@ -134,53 +372,149 @@
 <script src="js/web3.min.js"></script>
 <script src="js/truffle-contract.js"></script>
 <script>
-    // Function to display requests on the dashboard
-    function loadRequests() {
-        const requests = JSON.parse(localStorage.getItem('medicineRequests')) || [];
-        const requestContainer = document.getElementById('incomingRequests');
-        requestContainer.innerHTML = '';
+    document.addEventListener('DOMContentLoaded', () => {
+    const savedHospitalName = localStorage.getItem('hospitalName');
+    const savedRequests = localStorage.getItem('displayedRequests');
 
-        requests.forEach((request, index) => {
-            const requestDiv = document.createElement('div');
-            requestDiv.className = 'request-item';
-            requestDiv.id = `request-${index}`;
-            requestDiv.innerHTML = `
-                <div class="serial-number">${index + 1}</div>
-                <div class="request-content">
-                    <p><strong>From:</strong> ${request.requestingHospital}</p>
-                    <p><strong>Medicine:</strong> ${request.medicineName}</p>
-                    <p><strong>Quantity:</strong> ${request.quantity}</p>
-                    <p><strong>Status:</strong> ${request.status}</p>
-                </div>
-                <div class="btn-container">
-                    <button class="btn btn-success" onclick="approveRequest(${index})">Approve</button>
-                    <button class="btn btn-danger" onclick="rejectRequest(${index})">Reject</button>
-                </div>
-            `;
-            requestContainer.appendChild(requestDiv);
-        });
+    if (savedHospitalName) {
+        document.getElementById('hospitalName').value = savedHospitalName;
+        if (savedRequests) {
+            document.getElementById('requestsContainer').innerHTML = savedRequests;
+        } else {
+            loadRequests();
+        }
+    }
+});
+
+function loadRequests() {
+    const hospitalName = document.getElementById('hospitalName').value.trim();
+    if (!hospitalName) {
+        alert('Please enter your hospital name to see requests.');
+        return;
+    }
+    localStorage.setItem('hospitalName', hospitalName);
+
+    const requests = JSON.parse(localStorage.getItem('medicineRequests')) || [];
+    const requestsContainer = document.getElementById('requestsContainer');
+    requestsContainer.innerHTML = '';
+
+    const incomingRequests = requests.filter(request => request.recipientHospital === hospitalName);
+    const outgoingRequests = requests.filter(request => request.requestingHospital === hospitalName);
+
+    if (incomingRequests.length === 0 && outgoingRequests.length === 0) {
+        requestsContainer.innerHTML = `<p>No requests for ${hospitalName}.</p>`;
+        localStorage.setItem('displayedRequests', requestsContainer.innerHTML);
+        return;
+    }
+
+    incomingRequests.forEach((request, index) => {
+        const requestDiv = createRequestDiv(request, 'From', request.requestingHospital, request.status, index, true);
+        requestsContainer.appendChild(requestDiv);
+    });
+
+    outgoingRequests.forEach((request, index) => {
+        const requestDiv = createRequestDiv(request, 'To', request.recipientHospital, request.status, index, false);
+        requestsContainer.appendChild(requestDiv);
+    });
+
+    localStorage.setItem('displayedRequests', requestsContainer.innerHTML);
+}
+
+
+    function createRequestDiv(request, direction, otherHospital, status, index, isIncoming) {
+        const requestDiv = document.createElement('div');
+        requestDiv.className = 'request-item';
+        requestDiv.innerHTML = `
+            <div class="serial-number">${index + 1}</div>
+            <div class="request-content">
+                <p><strong>${direction}:</strong> ${otherHospital}</p>
+                <p><strong>Medicine:</strong> ${request.medicineName}</p>
+                <p><strong>Quantity:</strong> ${request.quantity}</p>
+                <p><strong>Status:</strong> <span id="status-${index}">${status}</span></p>
+            </div>
+            ${isIncoming ? `
+            <div class="btn-container" id="buttons-${index}">
+                <button class="btn btn-success" onclick="approveRequest(${index})">Approve</button>
+                <button class="btn btn-danger" onclick="rejectRequest(${index})">Reject</button>
+            </div>` : ''}
+        `;
+        return requestDiv;
     }
 
     function approveRequest(index) {
         updateRequestStatus(index, 'approved');
-        alert(`Request ID ${index + 1} approved.`);
     }
 
     function rejectRequest(index) {
         updateRequestStatus(index, 'rejected');
-        alert(`Request ID ${index + 1} rejected.`);
     }
+    // function updateRequestStatus(index, status) {
+    //     let requests = JSON.parse(localStorage.getItem('medicineRequests')) || [];
+        
+       
+    //     requests[index].status = status;
+    //     localStorage.setItem('medicineRequests', JSON.stringify(requests));
 
+    //     document.getElementById(`status-${index}`).innerText = status.charAt(0).toUpperCase() + status.slice(1);
+        
+    //     document.getElementById(`buttons-${index}`).style.display = 'none';
+
+    //     document.getElementById(`buttons-${index}`).style.display = 'hidden';
+
+    //     const statusMessage = document.createElement('p');
+    //     statusMessage.innerText = status.charAt(0).toUpperCase() + status.slice(1);
+    //     statusMessage.style.fontWeight = 'bold';
+        
+    //     document.querySelector(`#buttons-${index}`).parentNode.appendChild(statusMessage);
+    //     if (requests[index].requestingHospital) {
+    //         const outgoingIndex = requests.findIndex(req => 
+    //             req.requestingHospital === requests[index].requestingHospital && 
+    //             req.recipientHospital === requests[index].recipientHospital
+    //         );
+    //         if (outgoingIndex !== -1) {
+    //             requests[outgoingIndex].status = status;
+    //             localStorage.setItem('medicineRequests', JSON.stringify(requests));
+    //             const requestorStatusElement = document.getElementById(`status-${outgoingIndex}`);
+    //             if (requestorStatusElement) {
+    //                 requestorStatusElement.innerText = status.charAt(0).toUpperCase() + status.slice(1);
+    //             }
+    //         }
+    //     }
+    // }
     function updateRequestStatus(index, status) {
         let requests = JSON.parse(localStorage.getItem('medicineRequests')) || [];
+        
+       
         requests[index].status = status;
         localStorage.setItem('medicineRequests', JSON.stringify(requests));
-        loadRequests();
+
+        document.getElementById(`status-${index}`).innerText = status.charAt(0).toUpperCase() + status.slice(1);
+        
+        document.getElementById(`buttons-${index}`).style.display = 'none';
+
+        const statusMessage = document.createElement('p');
+        statusMessage.innerText = status.charAt(0).toUpperCase() + status.slice(1);
+        statusMessage.style.fontWeight = 'bold';
+        
+        document.querySelector(`#buttons-${index}`).parentNode.appendChild(statusMessage);
+        if (requests[index].requestingHospital) {
+            const outgoingIndex = requests.findIndex(req => 
+                req.requestingHospital === requests[index].requestingHospital && 
+                req.recipientHospital === requests[index].recipientHospital
+            );
+            if (outgoingIndex !== -1) {
+                requests[outgoingIndex].status = status;
+                localStorage.setItem('medicineRequests', JSON.stringify(requests));
+                const requestorStatusElement = document.getElementById(`status-${outgoingIndex}`);
+                if (requestorStatusElement) {
+                    requestorStatusElement.innerText = status.charAt(0).toUpperCase() + status.slice(1);
+                }
+            }
+        }
     }
 
-    // Load requests when the page is loaded
-    window.onload = loadRequests;
-</script>
 
+</script>
 </body>
 </html>
+

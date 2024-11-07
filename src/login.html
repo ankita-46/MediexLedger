@@ -1,3 +1,216 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            display: none;
+            background-color: white;
+            padding: 30px 50px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: grey;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 10px;
+            color: blue;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="loginContainer">
+        <h2>Login</h2>
+        <form id="loginForm" onsubmit="return handleLogin(event)" autocomplete="off">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <p id="error-message" class="error-message"></p>
+        <p class="link" onclick="showRegisterForm()">Not registered? Click here to register</p>
+    </div>
+    
+
+    <div class="container" id="registerContainer">
+        <h2>Register</h2>
+        <form id="registerForm" onsubmit="return handleRegister(event)" autocomplete="off">
+            <div class="form-group">
+                <label for="register_hospital_name">Hospital Name:</label>
+                <input type="text" id="register_hospital_name" required>
+            </div>
+            <div class="form-group">
+                <label for="registerUsername">Hospital UserName:</label>
+                <input type="text" id="registerUsername" required>
+            </div>
+            <div class="form-group">
+                <label for="registerPassword">Password:</label>
+                <input type="password" id="registerPassword" required>
+            </div>
+            <div class="form-group">
+                <label for="register_hospital_address">Hospital Address:</label>
+                <input type="text" id="register_hospital_address" required>
+            </div>
+            <button type="submit" class="btn">Register</button>
+        </form>
+        <p id="register-message" class="error-message"></p>
+        <p class="link" onclick="showLoginForm()">Already registered? Click here to login</p>
+    </div>
+
+    <script>
+        document.getElementById('loginContainer').style.display = 'block';
+        document.getElementById('registerContainer').style.display = 'block';
+
+        window.onload = function() {
+            const lastForm = sessionStorage.getItem('lastForm');
+            const sessionId = sessionStorage.getItem('sessionId');
+
+            if (!sessionId) {
+                generateSessionId();
+            }
+            
+            if (lastForm === 'register') {
+                showRegisterForm();
+            } else {
+                showLoginForm();
+            }
+
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('registerUsername').value = '';
+            document.getElementById('registerPassword').value = '';
+        };
+
+        function handleRegister(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+            const hospitalName = document.getElementById('register_hospital_name').value;
+            const hospitalAddress = document.getElementById('register_hospital_address').value;
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            const userExists = users.some(user => user.username === username);
+            if (userExists) {
+                document.getElementById('register-message').textContent = 'Username already exists. Please choose another.';
+                return;
+            }
+
+            const newUser = {
+                username,
+                password,
+                hospitalName,
+                hospitalAddress
+            };
+
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            document.getElementById('register-message').textContent = 'User registered successfully!';
+            showLoginForm();
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            const user = users.find(user => user.username === username && user.password === password);
+
+            if (user) {
+                sessionStorage.setItem('loggedInUser', JSON.stringify(user)); 
+                window.location.href = `Request_to_hospital.html?hospital=${encodeURIComponent(user.hospitalName)}`;
+            } else {
+                document.getElementById('error-message').innerText = 'Invalid username or password.';
+            }
+        }
+
+        function generateSessionId() {
+            const sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            sessionStorage.setItem('sessionId', sessionId);
+        }
+
+        function showRegisterForm() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('registerContainer').style.display = 'block';
+            sessionStorage.setItem('lastForm', 'register');
+        }
+
+        function showLoginForm() {
+            document.getElementById('registerContainer').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'block';
+            sessionStorage.setItem('lastForm', 'login');
+        }
+    </script>
+</body>
+</html> -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,24 +290,23 @@
 <body>
     <div class="container" id="loginContainer">
         <h2>Login</h2>
-        <form id="loginForm" onsubmit="return handleLogin(event)">
+        <form id="loginForm" onsubmit="return handleLogin(event)" autocomplete="off">
             <div class="form-group">
                 <label for="username">Username:</label>
-                <input type="text" id="username" required>
+                <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" id="password" required>
+                <input type="password" name="password" id="password" required>
             </div>
             <button type="submit" class="btn">Login</button>
         </form>
         <p id="error-message" class="error-message"></p>
         <p class="link" onclick="showRegisterForm()">Not registered? Click here to register</p>
     </div>
-
     <div class="container" id="registerContainer">
         <h2>Register</h2>
-        <form id="registerForm" onsubmit="return handleRegister(event)">
+        <form id="registerForm" onsubmit="return handleRegister(event)" autocomplete="off">
             <div class="form-group">
                 <label for="register_hospital_name">Hospital Name:</label>
                 <input type="text" id="register_hospital_name" required>
@@ -118,78 +330,91 @@
     </div>
 
     <script>
-        // Show login form by default
         document.getElementById('loginContainer').style.display = 'block';
 
         window.onload = function() {
-        const lastForm = localStorage.getItem('lastForm');
+            const lastForm = sessionStorage.getItem('lastForm');
+            const sessionId = sessionStorage.getItem('sessionId');
 
-        if (lastForm === 'register') {
-            showRegisterForm();
-        } else {
-            showLoginForm();
-        }
+            if (!sessionId) {
+                generateSessionId();
+            }
+            
+            if (lastForm === 'register') {
+                showRegisterForm();
+            } else {
+                showLoginForm();
+            }
 
-        // Clear input fields for both forms
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        document.getElementById('registerUsername').value = '';
-        document.getElementById('registerPassword').value = '';
-    };
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('registerUsername').value = '';
+            document.getElementById('registerPassword').value = '';
+        };
 
         function handleRegister(event) {
             event.preventDefault();
             
             const username = document.getElementById('registerUsername').value;
             const password = document.getElementById('registerPassword').value;
-            const hospital_name = document.getElementById('register_hospital_name').value;
-            const hospital_address = document.getElementById('register_hospital_address').value;
+            const hospitalName = document.getElementById('register_hospital_name').value;
+            const hospitalAddress = document.getElementById('register_hospital_address').value;
 
-            if (username && password && hospital_name) {
-                localStorage.setItem('username', username);
-                localStorage.setItem('password', password);
-                localStorage.setItem('hopitalName', hospital_name);
-                document.getElementById('register-message').textContent = 'User registered successfully!';
-                showLoginForm(); // Switch to login form after registering
-            } else {
-                document.getElementById('register-message').textContent = 'Please fill in both fields!';
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            const userExists = users.some(user => user.username === username);
+            if (userExists) {
+                document.getElementById('register-message').textContent = 'Username already exists. Please choose another.';
+                return;
             }
+
+            const newUser = {
+                username,
+                password,
+                hospitalName,
+                hospitalAddress
+            };
+
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            document.getElementById('register-message').textContent = 'User registered successfully!';
+            showLoginForm();
         }
 
         function handleLogin(event) {
             event.preventDefault();
-            
+
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            const storedUsername = localStorage.getItem('username');
-            const storedPassword = localStorage.getItem('password');
+            let users = JSON.parse(localStorage.getItem('users')) || [];
 
-            if (username === storedUsername && password === storedPassword) {
-                sessionStorage.setItem('loggedIn', true);
+            const user = users.find(user => user.username === username && user.password === password);
 
-                const urlParams = new URLSearchParams(window.location.search);
-                const redirectUrl = urlParams.get('redirect');
-                if (redirectUrl) {
-                    window.location.href = redirectUrl;
-                } else {
-                    window.location.href = 'Request_to_hospital.html';
-                }
+            if (user) {
+                sessionStorage.setItem('loggedInUser', JSON.stringify(user)); 
+                window.location.href = `Request_to_hospital.html?hospital=${encodeURIComponent(user.hospitalName)}`;
             } else {
                 document.getElementById('error-message').innerText = 'Invalid username or password.';
             }
         }
 
+        function generateSessionId() {
+            const sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            sessionStorage.setItem('sessionId', sessionId);
+        }
+
         function showRegisterForm() {
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('registerContainer').style.display = 'block';
-            localStorage.setItem('lastForm', 'register');
+            sessionStorage.setItem('lastForm', 'register');
         }
 
         function showLoginForm() {
             document.getElementById('registerContainer').style.display = 'none';
             document.getElementById('loginContainer').style.display = 'block';
-            localStorage.setItem('lastForm', 'login');
+            sessionStorage.setItem('lastForm', 'login');
         }
     </script>
 </body>
