@@ -324,7 +324,9 @@
                 <ul class="navbar-nav m-auto">
                     <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
                     <li class="nav-item"><a href="Request_to_hospital.html" class="nav-link">Request Medicine</a></li>
-                    <li class="nav-item"><a href="Sell_to_hospital.html" class="nav-link">Sell Medicine</a></li>
+                    <li class="nav-item"><a href="incoming_req.html" class="nav-link" id="incomingNav">Incoming Requests</a></li>
+                    <li class="nav-item"><a href="outgoing_req.html" class="nav-link" id="outgoingNav">Outgoing Requests</a></li>
+
                 </ul>
             </div>
         </div>
@@ -334,7 +336,7 @@
 
 <section>
     <div class="container">
-        <h2>Medicine Requests</h2>
+        <h2>Medicine Requests </h2>
         <div id="loginPrompt">
             <label for="hospitalName">Enter Your Hospital UserName:</label>
             <input type="text" id="hospitalName" placeholder="Enter hospital name">
@@ -361,7 +363,6 @@
             <li class="list-inline-item"><a href="#" style="color: white;">Privacy Policy</a></li>
         </ul>
         <p class="copyright" style="margin-top: 10px; color: white;">MediexLedger © 2024</p>
-        <p class="copyright" style="margin-top: -20px; color: white;">(Under Supervision of Amit Biswas Sir)</p>
     </div>
 </footer>
 
@@ -375,7 +376,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         const savedHospitalName = localStorage.getItem('hospitalName');
         const savedRequests = localStorage.getItem('displayedRequests');
-    
+
         if (savedHospitalName) {
             document.getElementById('hospitalName').value = savedHospitalName;
             if (savedRequests) {
@@ -384,101 +385,127 @@
                 loadRequests();
             }
         }
+
+        checkRequestStatusOnLoad();
+    });
+
+    function checkRequestStatusOnLoad() {
+    let requests = JSON.parse(localStorage.getItem('medicineRequests')) || [];
+    
+    requests.forEach((request, index) => {
+        if (request.status === 'Approved' || request.status === 'Rejected') {
+            hideButtonsAndShowStatus(index, request.status);
+        }
+    });
+}
+
+    function handlePageNavigation(currentPage) {
+        const lastPage = localStorage.getItem('currentPage');
+        if (lastPage && lastPage !== currentPage) {
+            localStorage.removeItem('displayedRequests');
+            localStorage.removeItem('hospitalName');
+        }
+        localStorage.setItem('currentPage', currentPage);
+    }
+
+    document.getElementById('incomingNav').addEventListener('click', function(e) {
+        handlePageNavigation('incoming');
+    });
+
+    document.getElementById('outgoingNav').addEventListener('click', function(e) {
+        handlePageNavigation('outgoing');
     });
     
-    function loadRequests() {
-        const hospitalName = document.getElementById('hospitalName').value.trim();
-        if (!hospitalName) {
-            alert('Please enter your hospital name to see requests.');
-            return;
-        }
-        localStorage.setItem('hospitalName', hospitalName);
-    
-        const requests = JSON.parse(localStorage.getItem('medicineRequests')) || [];
-        const requestsContainer = document.getElementById('requestsContainer');
-        requestsContainer.innerHTML = '';
-    
-        const incomingRequests = requests.filter(request => request.recipientHospital === hospitalName);
-        const outgoingRequests = requests.filter(request => request.requestingHospital === hospitalName);
-    
-        if (incomingRequests.length === 0 && outgoingRequests.length === 0) {
-            requestsContainer.innerHTML = `<p>No requests for ${hospitalName}.</p>`;
-            localStorage.setItem('displayedRequests', requestsContainer.innerHTML);
-            return;
-        }
-    
-        incomingRequests.forEach((request, index) => {
-            const requestDiv = createRequestDiv(request, 'From', request.requestingHospital, request.status, index, true);
-            requestsContainer.appendChild(requestDiv);
-        });
-    
-        outgoingRequests.forEach((request, index) => {
-            const requestDiv = createRequestDiv(request, 'To', request.recipientHospital, request.status, index, false);
-            requestsContainer.appendChild(requestDiv);
-        });
-    
-        localStorage.setItem('displayedRequests', requestsContainer.innerHTML);
+
+    function hideButtonsAndShowStatus(index, status) {
+        document.getElementById(`buttons-${index}`).style.display = 'none';
     }
-    
-    function createRequestDiv(request, direction, otherHospital, status, index, isIncoming) {
-        const requestDiv = document.createElement('div');
-        requestDiv.className = 'request-item';
-        requestDiv.innerHTML = `
-            <div class="serial-number">${index + 1}</div>
-            <div class="request-content">
-                <p><strong>${direction}:</strong> ${otherHospital}</p>
-                <p><strong>Medicine:</strong> ${request.medicineName}</p>
-                <p><strong>Quantity:</strong> ${request.quantity}</p>
-                <p><strong>Status:</strong> <span id="status-${index}">${status}</span></p>
-            </div>
-            ${isIncoming ? `
-                <div class="btn-container" id="buttons-${index}">
-                    <button class="btn btn-success" onclick="approveRequest(${index})">Approve</button>
-                    <button class="btn btn-danger" onclick="rejectRequest(${index})">Reject</button>
-                </div>` : ''}
-        `;
-        return requestDiv;
-    }
-    
-    function approveRequest(index) {
-        updateRequestStatus(index, 'approved');
-    }
-    
-    function rejectRequest(index) {
-        updateRequestStatus(index, 'rejected');
-    }
-    
+
+    //STATUS 
     function updateRequestStatus(index, status) {
         let requests = JSON.parse(localStorage.getItem('medicineRequests')) || [];
-    
+
         requests[index].status = status;
+
         localStorage.setItem('medicineRequests', JSON.stringify(requests));
-    
+
         document.getElementById(`status-${index}`).innerText = status.charAt(0).toUpperCase() + status.slice(1);
-        document.getElementById(`buttons-${index}`).style.display = 'none';
+
+        hideButtonsAndShowStatus(index, status);
+        
+        const requestsContainer = document.getElementById('requestsContainer');
+        localStorage.setItem('displayedRequests', requestsContainer.innerHTML);
     
-        const statusMessage = document.createElement('p');
-        statusMessage.innerText = status.charAt(0).toUpperCase() + status.slice(1);
-        statusMessage.style.fontWeight = 'bold';
-    
-        document.querySelector(`#buttons-${index}`).parentNode.appendChild(statusMessage);
-    
-        if (requests[index].requestingHospital) {
-            const outgoingIndex = requests.findIndex(req =>
-                req.requestingHospital === requests[index].requestingHospital &&
-                req.recipientHospital === requests[index].recipientHospital
-            );
-            if (outgoingIndex !== -1) {
-                requests[outgoingIndex].status = status;
-                localStorage.setItem('medicineRequests', JSON.stringify(requests));
-                const requestorStatusElement = document.getElementById(`status-${outgoingIndex}`);
-                if (requestorStatusElement) {
-                    requestorStatusElement.innerText = status.charAt(0).toUpperCase() + status.slice(1);
-                }
-            }
-        }
+   }
+
+
+
+   //REQUESTS LOAD
+    function loadRequests() {
+    const hospitalName = document.getElementById('hospitalName').value.trim();
+    if (!hospitalName) {
+        alert('Please enter your hospital name to see requests.');
+        return;
     }
-    </script>
+    localStorage.setItem('hospitalName', hospitalName);
+
+    const requests = JSON.parse(localStorage.getItem('medicineRequests')) || [];
+    const requestsContainer = document.getElementById('requestsContainer');
+    requestsContainer.innerHTML = '';
+
+    const incomingRequests = requests.filter(request => request.recipientHospital === hospitalName);
+
+    if (incomingRequests.length === 0) {
+        requestsContainer.innerHTML = `<p>No requests for ${hospitalName}.</p>`;
+        localStorage.setItem('displayedRequests', requestsContainer.innerHTML);
+        return;
+    }
+
+    incomingRequests.forEach((request, index) => {
+        const requestDiv = createRequestDiv(request, 'From', request.requestingHospital, request.status, index, true);
+        requestsContainer.appendChild(requestDiv);
+        if (request.status === 'Approved' || request.status === 'Rejected') {
+            hideButtonsAndShowStatus(index, request.status);
+        }
+    });
+
+    localStorage.setItem('displayedRequests', requestsContainer.innerHTML);
+    }
+
+    function createRequestDiv(request, direction, otherHospital, status, index, isIncoming) {
+    const requestDiv = document.createElement('div');
+    requestDiv.className = 'request-item';
+    requestDiv.innerHTML = `
+        <div class="serial-number">${index + 1}</div>
+        <div class="request-content">
+            <p><strong>From:</strong> ${otherHospital}</p>
+            <p><strong>Medicine:</strong> ${request.medicineName}</p>
+            <p><strong>Quantity:</strong> ${request.quantity}</p>
+            <p><strong>Status:</strong> <span id="status-${index}">${status}</span></p>
+        </div>
+        <div class="btn-container" id="buttons-${index}">
+            <button class="btn btn-success" onclick="approveRequest(${index})">Approve</button>
+            <button class="btn btn-danger" onclick="rejectRequest(${index})">Reject</button>
+        </div>`;
+
+    // If request is already approved or rejected, hide the buttons
+    // if (status === 'Approved' || status === 'Rejected') {
+    //     hideButtonsAndShowStatus(index, status);
+    // }
+
+    return requestDiv;
+   }
+
+    function approveRequest(index) {
+        updateRequestStatus(index, 'Approved');
+    }
+
+    function rejectRequest(index) {
+        updateRequestStatus(index, 'Rejected');
+    }
+
+
+</script>
 
 </body>
 </html>
