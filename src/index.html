@@ -40,6 +40,22 @@
 </head>
 
 <body>
+	<button id="connectButton">Connect MetaMask</button>
+    <script>
+        document.getElementById('connectButton').addEventListener('click', async () => {
+            if (window.ethereum) {
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    console.log('Connected:', accounts[0]);
+                    // Optionally display the connected account or perform any other action
+                } catch (error) {
+                    console.error('User rejected the request:', error);
+                }
+            } else {
+                alert('MetaMask is not installed. Please install MetaMask to connect.');
+            }
+        });
+    </script>
 	<nav class="navbar1" style="height: 90px;">
 		<ul class="navbar-nav1">
 			<!-- <div>
@@ -225,6 +241,8 @@
 
 		
 	</div>
+
+	
 
 
 							
